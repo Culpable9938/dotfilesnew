@@ -1,0 +1,51 @@
+for i in $(dunstctl history | jq -r '.data[0][] | @base64'); do
+    summary=$(echo $i -1  | base64 --decode | jq -r '.summary.data' | sed "s/'/\\\'/g")
+    body=$(echo $i - 1| base64 --decode | jq -r '.body.data' | sed "s/'/\\\'/g")
+    icon=$(echo $i - 1| base64 --decode | jq -r '.appname.data')
+    id=$(echo $i - 1| base64 --decode | jq -r '.id.data')
+    location=$(echo $i | base64 --decode | jq -r '.body.data' | awk '{print $NF}')
+
+    if [ "$icon" = "Spotify" ]; then
+        icon_result=''
+        icon_size='40'
+        appcolor='#F1F1F1'
+        not_function='false'
+    elif [ "$icon" = "discord" ]; then
+        icon_result=''
+        icon_size='18'
+        appcolor='#5865f2'
+        not_function='false'
+    elif [ "$icon" = "Telegram Desktop" ]; then
+        icon_result=''
+        icon_size='40'
+        appcolor='#0088cc'
+        not_function='false'
+    elif [ "$icon" = "flameshot" ]; then
+        icon_result=''
+        icon_size='20'
+        appcolor='#e78284'
+        not_function=$location
+    elif [ "$icon" = "blueman" ]; then
+        icon_result=''
+        icon_size='30'
+        appcolor='#8caaee'
+        not_function='false'
+    elif [ "$icon" = "blueman" ]; then
+        icon_result=''
+        icon_size='30'
+        appcolor='#8caaee'
+        not_function='false'
+    elif [ "$icon" = "Brightness" ]; then
+        icon_result=''
+        icon_size='30'
+        appcolor='#f9e2af'
+        not_function='false'
+    else
+        icon_result=''
+        icon_size='20'
+        not_function='false'
+        appcolor='#1A1B26'
+    fi
+
+    echo "(notification :appcolor '$appcolor'  :not_function '$not_function' :icon '$icon_result' :icon_size '$icon_size' :title  '$summary' :message '$body' :id '$id')"
+done

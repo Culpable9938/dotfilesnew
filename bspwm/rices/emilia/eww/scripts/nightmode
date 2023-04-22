@@ -1,0 +1,43 @@
+#!/bin/bash
+
+
+gamma=$(xrandr --verbose | grep -i gamma | awk '{print $NF}')
+IFS=':' read -r -a gamma_array <<< "$gamma"
+blue="${gamma_array[2]}"
+
+set_temp()
+{
+    if [ $(echo "$blue == 1.0" | bc -l) -eq 1 ]; then
+        red=0.8
+        green=0.8
+        blue=0.6
+        echo "Toggled to warm color temperature."
+    else
+        red=1
+        green=1
+        blue=1
+        echo "Toggled to cool color temperature. $blue"
+    fi
+
+    # Loop through all connected monitors
+    for monitor in $(xrandr | grep " connected" | cut -f1 -d" "); do
+        echo "Setting color temperature for monitor $monitor..."
+        xrandr --output $monitor --gamma $red:$green:$blue
+    done
+}
+
+get_status()
+{
+    if [ $(echo "$blue == 1.0" | bc -l) -eq 1 ]; then
+        echo "false"
+    else
+        echo "true"
+    fi
+}
+
+
+if [[ $1 == "toggle" ]]; then
+  set_temp
+elif [[ $1 == "status" ]]; then
+  get_status
+fi

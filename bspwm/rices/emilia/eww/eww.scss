@@ -1,0 +1,369 @@
+*{
+  all: unset;
+}
+
+
+
+$bg : #1A1B26;
+$fg : #F1F1F1;
+$mb : #282A36;
+
+$trans : #00000000;
+$white : #FFFFFF;
+$black : #000000;
+
+$red : #f38ba8;
+$red_dark : #e26365;
+$pink : #f4b8e4;
+$purple : #cba6f7;;
+$blue : #b4befe;
+$cyan : #85c1dc;;
+$teal : #94e2d5;
+$green : #a6e3a1;
+$lime : #91d7e3;
+$yellow : #f9e2af;;
+$amber : #FBC02D;
+$orange : #fab387;
+$brown : #AC8476;
+$grey : #232634;
+$blue-gray : #6D8895;
+
+
+.controlcenter {
+	background: $bg;
+	border: 0px solid $blue;
+	border-radius: 20px;
+	padding:20
+}
+
+.container
+{
+	margin-top: 10
+}
+
+
+.activeButton
+{
+	font-weight: bold;
+	font-size: 14;
+	background: $blue;
+	border-radius: 15px;
+	color: $bg;
+	padding:15px;
+	margin-bottom: 10px;
+	transition: all 0.2s;
+
+}
+
+.deActiveButton
+{
+	font-weight: bold;
+	font-size: 14;
+	background: $mb;
+	border-radius: 15px;
+	color: $white;
+	padding:15px;
+	margin-bottom: 10px;
+
+	transition: all 0.2s;
+}
+
+.deActiveButton:active
+{
+	background: $bg;
+}
+
+.activeButton:active
+{
+	background: $pink;
+}
+
+
+.settingsButtonLabel
+{
+	font-weight: 700;
+}
+
+.settingsButtonStatus
+{
+	font-weight: 400;
+}
+
+.settingsButtonIcon
+{
+	font-size: 25;
+	margin-right: 20;
+}
+
+
+.SystemControls {
+	background-color: $mb;
+	border-radius: 15px;
+	margin-top:0px;
+	padding: 20px 20px;
+}
+
+
+.scale 
+{
+	background-color: $mb;
+	margin: 0px 10px;
+	border-radius: 20;
+}
+
+.slider {
+	.label{
+	  color: $white;
+	  font-size: 14px;
+	  padding-right: 10px;
+	  font-family: "Font Awesome 6 Free Solid";
+	}
+	.scale-label{
+	  min-width: 40px;
+	  color: $white;
+	  font-size: 12px;
+	  font-weight: 500;
+	  margin-left: 0px;
+	}
+	trough {
+	  background-color: $bg;
+	  min-height: 10px;
+	  border-radius: 100px;
+  
+	  highlight {
+		background-color: $purple;
+		border-radius: 100px;
+		
+	  }
+	}
+  }
+  
+  .active {
+	trough {
+	  slider {
+		background: $purple;
+		border-radius: 100%;
+		margin: -8px;
+	  }
+	}
+  }
+
+.slider_light {
+	.label{
+	  color: $white;
+	  font-size: 14px;
+	  padding-right: 10px;
+	  font-family: "Font Awesome 6 Free Solid";
+	}
+	.scale-label{
+	  min-width: 40px;
+	  color: $white;
+	  font-size: 12px;
+	  font-weight: 500;
+	  margin-left: 0px;
+	}
+	trough {
+	  background-color: $bg;
+	  min-height: 8px;
+	  border-radius: 100px;
+  
+	  highlight {
+		background-color: $yellow;
+		border-radius: 100px;
+	  }
+	}
+  }
+  
+.slider_sound {
+	.label{
+	  color: $white;
+	  font-size: 14px;
+	  padding-right: 10px;
+	  font-family: "Font Awesome 6 Free Solid";
+	}
+	.scale-label{
+	  min-width: 40px;
+	  color: $white;
+	  font-size: 12px;
+	  font-weight: 500;
+	  margin-left: 0px;
+	}
+	trough {
+	  background-color: $bg;
+	  min-height: 8px;
+	  border-radius: 100px;
+  
+	  highlight {
+		background-color: $lime;
+		border-radius: 100px;
+	  }
+	}
+  }
+
+.slider_temp {
+	.label{
+	  color: $white;
+	  font-size: 14px;
+	  padding-right: 10px;
+	  font-family: "Font Awesome 6 Free Solid";
+	}
+	.scale-label{
+	  min-width: 40px;
+	  color: $white;
+	  font-size: 12px;
+	  font-weight: 500;
+	  margin-left: 0px;
+	}
+	trough {
+	  background-color: $bg;
+	  min-height: 8px;
+	  border-radius: 100px;
+  
+	  highlight {
+		background-color: $blue;
+		border-radius: 100px;
+	  }
+	}
+  }
+
+  //User Panel
+
+  .music
+  {
+	background-color: $fg;
+	border-radius: 20;
+	padding: 10
+  }
+
+  .weather
+  {
+	background-color: $mb;
+	border-radius: 20;
+	padding: 15
+  }
+
+  .weather_icon
+  {
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+  }
+
+  .Today_weather
+  {
+	border-bottom: 1px solid $fg;
+	padding-bottom: 20px;
+  }
+
+  .forecast
+  {
+	margin-top: 5px;
+  }
+
+  .Welcome_message
+  {
+	font-weight: 700;
+	font-size: 18;
+  }
+
+  .artImage
+  {
+	border-radius: 20;
+	background-position: center;
+	background-size:cover;
+	background-repeat: no-repeat;
+  }
+
+  .title
+  {
+	font-size: 16;
+	font-weight: 700;
+	color:$mb;
+  }
+
+  .artist
+  {
+	font-size: 13;
+	font-weight: 500;
+	margin-bottom: 15;
+	color:$mb;
+  }
+
+  .musicControl
+  {
+	padding: 5px;
+	transition: all 0.1s;
+	font-family: "Font Awesome 6 Free Solid";
+	color:$mb;
+  }
+
+  .musicControl:hover
+  {
+	color: $mb;
+  }
+
+  .slider_music {
+
+	trough {
+	  min-height: 4px;
+	  margin-top: 10px;
+	  background-color: $mb;
+	  border-radius: 10px;
+  
+	  highlight {
+		background-color: $orange;
+	  }
+	}
+  }
+
+//Notifications
+
+  .notifications_container
+  {
+	background-color: $mb;
+	border-radius: 20;
+	padding: 10px
+  }
+
+  .notification_tag
+  {
+	border-radius: 15;
+	background-color: $bg;
+	padding: 15
+  }
+
+  .not_function
+  {
+	background-color: $red_dark; 
+	border-radius: 10;
+	font-weight: 700;
+  }
+
+
+  .Title
+  {
+	font-weight: 500;
+	font-size: 15;
+  }
+
+  .ButtonTitle
+  {
+	font-weight: 500;
+	font-size: 12;
+	margin-left: 10;
+  }
+
+  .Icon
+  {
+	font-weight: 500;
+	font-size: 12;
+	font-family: "Font Awesome 6 Free Solid";
+  }
+
+
+  .Button
+  {
+	background-color: $bg;
+	padding: 10px 15px;
+	border-radius: 10;
+  }

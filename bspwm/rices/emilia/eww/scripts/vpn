@@ -1,0 +1,40 @@
+
+
+get_status () {
+  if ip link show tun0 up > /dev/null 2>&1; then
+    echo "true"
+  else
+    echo "false"
+  fi
+}
+
+start_vpn () {
+  openvpn --config ~/.config/bspwm/rices/emilia/eww/scripts/PrivateVPN-BE-Brussels-TUN-443.ovpn --auth-user-pass ~/.config/bspwm/rices/emilia/eww/scripts/creds
+  echo "VPN started"
+}
+
+stop_vpn () {
+  killall openvpn
+  echo "VPN stopped"
+}
+
+toggle () {
+  if ip link show tun0 up > /dev/null 2>&1; then
+    stop_vpn
+  else
+    start_vpn
+  fi
+}
+
+if [[ $1 == "status" ]]; then
+  get_status
+elif [[ $1 == "start" ]]; then
+  start_vpn
+elif [[ $1 == "stop" ]]; then
+  stop_vpn
+elif [[ $1 == "toggle" ]]; then
+  toggle
+else
+  echo "Usage: $0 {status|start|stop|toggle}"
+  exit 1
+fi

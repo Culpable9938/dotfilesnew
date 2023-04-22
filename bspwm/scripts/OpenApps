@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+#  ╔═╗╔═╗╔═╗╔═╗  ╦  ╔═╗╦ ╦╔╗╔╔═╗╦ ╦╔═╗╦═╗
+#  ╠═╣╠═╝╠═╝╚═╗  ║  ╠═╣║ ║║║║║  ╠═╣║╣ ╠╦╝
+#  ╩ ╩╩  ╩  ╚═╝  ╩═╝╩ ╩╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═
+#	Script to control apps launcher
+#   Author: z0mbi3
+#	url: https://github.com/gh0stzk
+
+# From here you can control your favorite applications for all themes.
+
+case "$1" in
+  --menu)
+   	 sh ~/.config/rofi/launchers/type-1/launcher.sh & disown;;
+  --rice)
+        RiceSelector & disown;;
+  --rofi-greenclip)
+        rofi -modi "clipboard:greenclip print" -theme ~/.config/bspwm/rices/emilia/rofi/clipboard.rasi -show clipboard -run-command '{cmd}' % disown;;
+  --btop)
+        alacritty --class Btop++,Alacritty -e btop & disown;;
+  --Nightmode)
+	sh ~/.config/bspwm/rices/emilia/eww/scripts/nightmode toggle & disown;;
+  --Controlcenter)
+	eww -c ~/.config/bspwm/rices/emilia/eww open --toggle window
+	sleep 0.2
+	eww -c ~/.config/bspwm/rices/emilia/eww open --toggle controlcenter & disown;;
+  --Userpanel)
+        eww -c ~/.config/bspwm/rices/emilia/eww open --toggle window2
+        sleep 0.2
+        eww -c ~/.config/bspwm/rices/emilia/eww open --toggle userpanel & disown;;
+  --Powermenu)
+	sh ~/.config/rofi/powermenu/type-1/powermenu.sh & disown;; 
+  --terminal)
+    alacritty & disown;;
+  --floating)
+    alacritty --class FloaTerm,Alacritty & disown;;
+  --update)
+    	alacritty --hold --class FloaTerm,Alacritty -e Updates --update-system & disown;;
+  --checkupdates)
+	alacritty --hold --class Updating,Alacritty -e Updates --print-updates & disown;;
+  --ranger)
+    alacritty --class Ranger,Alacritty -e ranger & disown;;
+  --nvim)
+    alacritty -e nvim & disown;;
+  --music)
+    alacritty --class MusicPlayer,Alacritty -e ncmpcpp & disown;;
+  --fetch)
+    alacritty --hold --class Sysfetch,Alacritty -e ~/.local/bin/sysfetch & disown;;
+  #Apps
+  --filemanager)
+	thunar & disown;;
+  --browser)
+	firefox & disown;;
+  --editor)
+	geany & disown;;
+  --telegram)
+	telegram & disown;;
+  --whats)
+	whatsapp-nativefier --disable-gpu & disown;;
+  --soundcontrol)
+    pavucontrol & disown;;
+  *)
+    echo "Opción no válida";;
+esac

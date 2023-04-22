@@ -1,0 +1,627 @@
+(defpoll percentage :interval "1s" "~/.config/bspwm/rices/emilia/eww/scripts/getVolume percentage")
+(defpoll volume :interval "1s" "~/.config/bspwm/rices/emilia/eww/scripts/getVolume vol")
+(defpoll brightness :interval "5s" "~/.config/bspwm/rices/emilia/eww/scripts/brightness status")
+
+(defpoll Cpu :interval "1s" "~/.config/bspwm/rices/emilia/eww/scripts/getCpu cpu")
+(defpoll ram :interval "1s" "~/.config/bspwm/rices/emilia/eww/scripts/getRam ram")
+(defpoll temp :interval "5s" "~/.config/bspwm/rices/emilia/eww/scripts/temp")
+
+(defpoll Bluetooth :interval "1s" "~/.config/bspwm/rices/emilia/eww/scripts/bluetooth state")
+(defpoll Bluetooth_name :interval "1s" "~/.config/bspwm/rices/emilia/eww/scripts/bluetooth name")
+(defpoll network :interval "1s" "~/.config/bspwm/rices/emilia/eww/scripts/network radio-status")
+(defpoll vpn :interval "1s" "~/.config/bspwm/rices/emilia/eww/scripts/vpn status")
+(defpoll nightmode :interval "1s" "~/.config/bspwm/rices/emilia/eww/scripts/nightmode status")
+
+(defpoll user :interval "1s" "whoami")
+
+(defpoll image :interval "2s" "playerctl --player spotify metadata --format '{{mpris:artUrl}}'")
+(defpoll title :interval "2s" "playerctl --player spotify metadata title")
+(defpoll artist :interval "2s" "playerctl --player spotify metadata artist")
+(defpoll music_position :interval "1s" "playerctl position")
+(defpoll music_length :interval "1s" "playerctl metadata mpris:length | awk '{print int($0/1000000)}'")
+
+(defpoll music_status :interval "2s" "playerctl status")
+
+(defpoll notifications :interval "1s" "~/.config/bspwm/rices/emilia/eww/scripts/notifications")
+(defpoll focus :interval "1s" "dunstctl is-paused")
+
+(defpoll weather :interval "300s" "~/.config/bspwm/rices/emilia/eww/scripts/weather current")
+(defpoll weather_icon :interval "300s" "~/.config/bspwm/rices/emilia/eww/scripts/weather icon")
+(defpoll feels :interval "300s" "~/.config/bspwm/rices/emilia/eww/scripts/weather feel")
+
+(defpoll weather_max :interval "300s" "~/.config/bspwm/rices/emilia/eww/scripts/weather max")
+(defpoll weather_min :interval "300s" "~/.config/bspwm/rices/emilia/eww/scripts/weather min")
+(defpoll forecastlist :interval "7200s" "~/.config/bspwm/rices/emilia/eww/scripts/weather forecast")
+
+(defwidget controlcenterwidget []
+	(box :class "controlcenter"
+		 :orientation "v"
+		 :space-evenly false
+		 :valign "fill"
+		 :halign "fill"
+		 
+		 (box :class "container"
+			  :space-evely false
+			  :valign "fill"
+			  :hexpand false
+			  :spacing 0
+			  :orientation "v"
+			  (box :class "controls"
+				:orinetation "h"
+				:space-evenly false
+				:halign "fill"
+				:spacing 20
+				(box :spacing 10
+					:halign "fill"
+					:orientation "h"
+					:space-evenly true
+					(sysblock 
+							:icon ""
+							:onclick "~/.config/bspwm/rices/emilia/eww/scripts/network toggle-radio" 
+							:active "${network == 'on' ? true : false}"
+							:label "Connection"
+							:text "on"
+							)
+					(sysblock 
+							:icon ""
+							:onclick "~/.config/bspwm/rices/emilia/eww/scripts/bluetooth toggle" 
+							:active "${Bluetooth == 'on' ? true : false}"
+							:label "Bluetooth"
+							:text " ${Bluetooth_name == '' ? 'on' : Bluetooth_name }"
+							)
+				)
+			  )
+
+			  (box :class "controls"
+						:orinetation "h"
+						:space-evenly false
+						:halign "fill"
+						:spacing 20
+					(box :spacing 10
+							:halign "fill"
+							:orientation "h"
+							:space-evenly true
+					(sysblock 
+							:icon ""
+							:onclick "OpenApps --Nightmode" 
+							:active "${nightmode}"
+							:label "Night Light"
+							:text "on"
+							)
+					(sysblock 
+							:icon ""
+							:onclick "echo '828434'| sudo -S ~/.config/bspwm/rices/emilia/eww/scripts/vpn toggle" 
+							:active "${vpn}"
+							:label "VPN"
+							:text "on"
+							)
+					)
+			  )
+
+		 ) 
+			
+
+		(box :class "container"
+			  :space-evely false
+			  :valign "fill"
+			  :hexpand true
+			  :spacing 10
+			(box :class "controls"
+					:orinetation "v"
+					:space-evenly false
+					:halign "fill"
+					:spacing 20
+
+					(box :spacing 20
+						:width 360
+						:halign "fill"
+						:orientation "v"
+						:space-evenly true
+						:class "SystemControls"
+
+						(box :class "slider_sound"
+							:orientation "h"
+							:space-evenly "false"
+
+							(box :width 30 :class "label" "")
+
+							(scale :value volume
+									:class "scale"
+									:hexpand true
+									:onchange "~/.config/bspwm/rices/emilia/eww/scripts/volume.sh set {}"
+									:active true
+									:min 0
+									:max 101)
+
+							(box :width 30 :class "scale-label"
+							"${percentage}")
+						)
+
+						(box :class "slider_light"
+							:orientation "h"
+							:space-evenly "false"
+
+							(box :width 30 :class "label" "")
+
+							(scale :value brightness
+									:class "scale"
+									:hexpand true
+									:active false
+									:min 0
+									:max 101)
+
+							(box :width 30 :class "scale-label"
+							"${brightness}%")
+						)
+						
+					)
+			)
+
+		)
+
+
+		(box :class "container"
+			  :space-evely false
+			  :valign "fill"
+			  :hexpand true
+			  :spacing 10
+			(box :class "controls"
+					:orinetation "v"
+					:space-evenly false
+					:halign "fill"
+					:spacing 20
+
+					(box :spacing 20
+						:width 360
+						:halign "fill"
+						:orientation "v"
+						:space-evenly true
+						:class "SystemControls"
+						(box :class "slider_temp"
+							:orientation "h"
+							:space-evenly "false"
+
+							(box :width 30 :class "label" " ")
+
+							(scale :value temp
+									:class "scale"
+									:hexpand true
+									:active false
+									:min 0
+									:max 101)
+
+							(box  :width 30:class "scale-label"
+								"${temp}°")
+						)
+						(box :class "slider"
+							:orientation "h"
+							:space-evenly "false"
+
+							(box :width 30 :class "label" " ")
+
+							(scale :value Cpu
+									:class "scale"
+									:hexpand true
+									:active false
+									:min 0
+									:max 101)
+
+							(box :width 30 :class "scale-label"
+								"${Cpu}%")
+						)
+						(box :class "slider"
+							:orientation "h"
+							:space-evenly "false"
+
+							(box :width 30 :class "label" " ")
+
+							(scale :value ram
+									:class "scale"
+									:hexpand true
+									:active true
+									:min 0
+									:max 101)
+
+							(box :width 30 :class "scale-label"
+								"${ram}%")
+						)
+						
+						
+					)
+			)
+
+		)
+		
+	)
+)
+
+(defwidget userpanel []
+	(box :class "controlcenter"
+		 :orientation "h"
+		 :spacing 20
+		 :space-evenly false
+		 (box :class "container"
+			  :spacing 15
+			  :orientation "v"
+			  :hexpand false
+			  :space-evenly false
+			  (box :halign "start"
+					:class "Welcome_message"
+					"Hi there, ${user}!")
+
+			  (box :class "music"
+				   :height 100
+				   :width 300
+				   :hexpand false
+				   :vexpand false
+				   :halign "start"
+				   :valign "start"
+				   :space-evenly false
+				   :spacing 10
+
+				   (box 
+						  :class "artImage"
+				   		  :height 100
+						  :width 100
+						  :halign "start"
+						  :valign "start"	   
+						  :style "background-image: url('${image}')"
+				   )
+
+					(box 
+						  :halign "fill"
+						  :valign "fill"	  
+						  :orientation "v" 
+						  :space-evenly false
+						  :height 100
+						  :width 140
+
+						  (label :class "title" 
+								 :text "${title}"
+								 :style "margin-top: 10"
+								 :limit-width 15
+						  )
+
+						  (box :class "artist" 
+							    "${artist}")
+
+						  (box :orientation "h" 
+						  	   :space-evenly false
+								 :halign "center"
+								 :spacing 20
+
+							   (eventbox :class "musicControl" 
+							   			:width 20
+										:cursor "pointer"
+										:onclick "playerctl previous"
+							   			"")
+							   (eventbox :class "musicControl" 
+							   			:width 20
+										:cursor "pointer"
+										:onclick "playerctl play-pause"
+							   			"${music_status == 'Playing' ? '' : ''}")
+							   (eventbox :class "musicControl" 
+							   			:width 20
+										:cursor "pointer"
+										:onclick "playerctl next"
+							   			"")
+										
+						  )
+
+						  (box :class "slider"
+								:orientation "h"
+								:space-evenly "false"
+
+		
+								(scale :value "${music_position}"
+										:class "slider_music"
+										:hexpand true
+										:active true
+										:onchange "playerctl position {}"
+										:min 0
+										:max "${music_length}")
+		
+							)
+
+				   )
+
+				   (box :halign "start"
+				   		:valign "start"
+						:style "font-size: 20; color: #ef9f76"	 
+						(label 	:style "font-family: 'Font Awesome 6 Free Solid'"
+								:text ""
+								:limit-width 15
+						)
+					)
+			  )	
+			  (eventbox :onclick "firefox https://www.accuweather.com/en/nl/tilburg/249209/weather-forecast/249209 & OpenApps --Userpanel"
+			  			:cursor "pointer"
+						(box :class "weather"
+								:halign "fill"
+								:valign "fill"
+								:orientation "v"
+								:space-evenly false
+								:spacing 10
+							(box :orientation "h"
+									:valign "start"
+									:halign "fill"
+									:class "Today_weather"
+									:space-evenly true
+
+										(box :orientation "v"
+												:halign "start"
+												:valign "start"
+												:space-evenly false
+
+												(box :orientation "h"
+													:spacing 5
+													:space-evenly false
+													:style "margin-bottom: 5px" 
+
+													(label  :halign "start"
+															:valign "start"
+															:limit-width 10
+															:style "font-weight: 700; font-size: 35;"
+															:text "${weather}°")
+
+													(box 	:orientation "h"
+															:halign "start"
+															:valign "end"
+															:spacing 5
+					
+															(label  :halign "start"
+																	:valign "start"
+																	:style "font-weight: 400; color: #8caaee"
+																	:text "${weather_min}°")
+					
+															(label  :halign "start"
+																	:valign "start"
+																	:style "font-weight: 400; color: #e78284"
+																	:text "${weather_max}°")
+														)
+												)
+
+												(label  :halign "start"
+														:style "font-weight: 700"
+														:valign "start"
+														:text "Cloudy")
+												(label  :halign "start"
+														:valign "start"
+														:text "Feels like ${feels}°")
+										)
+
+									(box :class "icon"
+										:height 70
+										:width 70
+										:class "weather_icon"
+										:halign "end"
+										:style "background-image: url('${weather_icon}');"
+									)
+							)
+
+							(literal :content "
+											(box
+												:valign 'start'
+												:halign 'fill'
+												:hexpand false
+												:orientation 'h'
+
+												${forecastlist}
+											)
+							")
+				
+						)	
+			  )
+		)	
+		(box :class "notifications_container"
+			  :spacing 10
+			  :width 320
+			  :halign "start"
+			  :valign "fill"
+			  :orientation "v"
+			  :space-evenly false
+
+			  (box :halign "fill"
+			  		:space-evenly true
+
+					(box :halign "start"
+						:class "Title"
+						"Notifications")
+
+					(box
+						 :space-evenly false
+						 :halign "end"
+						 :spacing 5
+
+						(box
+							:class "Button"
+							:space-evenly false
+							:halign "end"
+							:style "${focus == true ? 'background-color: #' : ''}"
+	
+							(eventbox :cursor "pointer"
+								 :halign "start"
+								 :class "Icon"
+								 :onclick "dunstctl set-paused toggle"
+								 :style "${focus == true ? 'color: #e78284' : 'color: white'}"
+								 "${focus == true ? ' ' : ' '}")
+							(eventbox :cursor "pointer" 
+								 :halign "start"
+								 :class "ButtonTitle"
+								 :onclick "dunstctl set-paused toggle"
+								 "${focus == true ? 'focus on' : 'focus off'}")
+						)
+
+						(box
+							:class "Button"
+							:space-evenly false
+							:halign "end"
+
+							(eventbox :cursor "pointer" 
+									  :halign "start"
+									  :onclick "dunstctl history-clear"
+								 	  :class "Icon"
+									   "")
+						)
+					)
+			  )
+			  (scroll :vscroll true 
+						:height 350
+						:style "margin-top: 10px"
+				(box :orientation "v"
+						:space-evenly false
+						:spacing 10
+						
+						(literal :content "(box :orientation 'v' 
+												:spacing 10 
+												:space-evenly false
+												
+												${notifications} )")
+				)
+			  )
+		)	
+	)
+)
+
+(defwidget forecast [day temp icon]
+	(box :orientation "v"
+		 :class "forecast"
+		 :hexpand false
+		 :spacing 5
+		 :space-evenly false
+		 (box "${day}") 
+		 (box :style "background-image: url('${icon}'); background-size: 30px; background-repeat: no-repeat; background-position: center" :height 40) 
+		 (box :style "font-weight: 500; font-size: 12" "${temp}°")   
+	)
+)
+
+(defwidget sysblock [icon onclick active label text]
+	(box 
+		 :orientation "h"
+		 :space-evenly true
+		 :spacing 1
+		 :width 175
+	  (button :class "block ${active ? 'activeButton' : 'deActiveButton'}" :onclick "${onclick}"
+		(box :orientation "h"
+			  :spacing 1
+			 :valign "start"
+			 :space-evenly false
+			  (box :class "iconbox"
+				   :halign "start"
+				   :valign "center"
+				   :space-evenly true
+				   :orientation "h"
+				(label :text "${icon}" :class "settingsButtonIcon")
+			  )
+			  (box :class "labelbox"
+				   :halign "start"
+				   :valign "start"
+				   :orientation "v"
+				(label :halign "center" :text "${label}" :class "settingsButtonLabel")
+				(label :halign "start" :text "${active ? text : 'off'}" :class "settingsButtonStatus")
+			 )
+		  (box :class "chevronbox"
+			   :halign "end"
+			   :hexpand true
+			   :valign "center"
+			   :space-evenly false
+			   :orientation "h"
+			(label :halign "end" :text "")
+		  )
+		)
+	  )
+	)
+)
+
+(defwidget notification [title message icon icon_size id not_function appcolor] 
+		(box :orientation "v"
+			 :class "notification_tag"
+			 :space-evenly false
+			 :spacing 20
+			 :style "background-color: ${appcolor}; color: ${appcolor == '#F1F1F1' || appcolor == '#f9e2af' ? '#282A36' : 'white'}"
+			(eventbox :onclick "dunstctl history-rm ${id}" :cursor "pointer"
+				(box 
+					:valign "start"
+					:halign "fill"
+					:space-evenly false
+					:hexpand false
+					:orientation "h"
+					
+
+					(box :orientation "v"
+						:width 220
+						(label :halign "start"
+								:valign "start"
+								:wrap true
+								:limit-width 22
+								:class "Title"
+								:text "${title}")
+						(label :halign "start"
+								:class "not_message"
+								:wrap true
+								:limit-width 30
+								:text "${message}")
+					)
+
+					(label :halign "start"
+							:valign "center"
+							:width 50
+							:style "font-size: ${icon_size}; font-family: 'Font Awesome 6 Free Solid'; padding: 0; margin-left: 20px;"
+							:class "Title"
+							:text "${icon}")
+				)
+			)
+
+			(box :spacing 10 
+				 :visible "${not_function == false ? false : true}"
+				 (eventbox :cursor "pointer" :height 40 :onclick "bspc desktop -f 3 & thunar ${not_function} & dunstctl history-rm ${id}" :class "not_function" "Show")
+				 (eventbox :cursor "pointer" :height 40 :onclick "rm ${not_function}; dunstctl history-rm ${id}" :class "not_function" "Delete")
+			)
+		)
+	
+)
+
+
+(defwindow controlcenter
+	:geometry (geometry :anchor "right top"
+						:x "-15px"
+						:y "70px"
+						:height "350px"
+						)
+	:wm-ignore true
+(controlcenterwidget))
+
+(defwindow userpanel
+	:geometry (geometry :anchor "center top"
+						:x "-15px"
+						:y "70px"
+						)
+	:wm-ignore true
+(userpanel))
+
+(defwindow window
+		:geometry (geometry :anchor "right top"
+							:x "0%"
+							:y "10%"
+							:height "90%"
+							:width "100%"
+							)
+		:wm-ignore true
+		:focusable false
+
+		(eventbox :onclick "OpenApps --Controlcenter & ")
+)
+	
+(defwindow window2
+	:geometry (geometry :anchor "right top"
+						:x "0%"
+						:y "10%"
+						:height "90%"
+						:width "100%"
+						)
+	:wm-ignore true
+	:focusable false
+
+	(eventbox :onclick "OpenApps --Userpanel & ")
+)
+

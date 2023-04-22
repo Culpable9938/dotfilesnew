@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+API_KEY="99b9ac8eafcdd7b5439d0b8037ec9e69"
+CITY="Tilburg"
+COUNTRY="NL"
+
+get_weather () {
+    TEMP=$(curl -s "http://api.openweathermap.org/data/2.5/weather?q=$CITY&appid=$API_KEY&units=metric" | jq -r '.main.temp')
+    ROUND_TEMP=$(printf "%.0f\n" "$TEMP")
+    echo "$ROUND_TEMP"
+}
+
+get_Feel () {
+    TEMP=$(curl -s "http://api.openweathermap.org/data/2.5/weather?q=$CITY&appid=$API_KEY&units=metric" | jq -r '.main.feels_like')
+    ROUND_TEMP=$(printf "%.0f\n" "$TEMP")
+    echo "$ROUND_TEMP"
+
+    
+}
+
+get_Max () {
+    max=$(curl -s "http://api.openweathermap.org/data/2.5/weather?q=$CITY&appid=$API_KEY&units=metric" | jq -r '.main.temp_max')
+    ROUND_TEMP=$(printf "%.0f\n" "$max")
+    echo "$ROUND_TEMP"
+}
+
+get_Min () {
+    min=$(curl -s "http://api.openweathermap.org/data/2.5/weather?q=$CITY&appid=$API_KEY&units=metric" | jq -r '.main.temp_min')
+    ROUND_TEMP=$(printf "%.0f\n" "$min")
+    echo "$ROUND_TEMP"
+}
+
+get_description() {
+    Desc=$(curl -s "http://api.openweathermap.org/data/2.5/weather?q=$CITY&appid=$API_KEY&units=metric" | jq -r '.weather[0].description')
+    echo "$Desc"
+}
+
+get_icon() {
+    icon=$(curl -s "http://api.openweathermap.org/data/2.5/weather?q=$CITY&appid=$API_KEY&units=metric" | jq -r '.weather[0].icon')
+    echo "https://openweathermap.org/img/wn/$icon.png"
+}
+
+get_forecast () {
+
+    days=("Sun" "Mon" "Tue" "Wed" "Thu" "Fri" "Sat")
+    tomorrow=$(date +%u)
+    
+    for ((i=1; i<6; i++)); do
+        index=$(( (tomorrow + i) % 7 ))
+        day=${days[$index]}
+        
+        icon=$(curl -s "https://api.openweathermap.org/data/2.5/forecast?q=$CITY,$COUNTRY&units=metric&appid=$API_KEY" | jq -r ".list[$i].weather[0].icon")
+        temp=$(curl -s "https://api.openweathermap.org/data/2.5/forecast?q=$CITY,$COUNTRY&units=metric&appid=$API_KEY" | jq -r ".list[$i].main.temp")
+        ROUND_TEMP=$(printf "%.0f\n" "$temp")
+
+        echo "(forecast :day '$day' :temp '$ROUND_TEMP'  :icon 'https://openweathermap.org/img/wn/$icon.png')"
+    done
+}
+
+
+
+if [[ $1 == "current" ]]; then
+  get_weather
+elif [[ $1 == "description" ]]; then
+  get_description
+elif [[ $1 == "feel" ]]; then
+  get_Feel
+elif [[ $1 == "max" ]]; then
+  get_Max
+elif [[ $1 == "min" ]]; then
+  get_Min
+elif [[ $1 == "icon" ]]; then
+  get_icon
+elif [[ $1 == "forecast" ]]; then
+  get_forecast
+fi
+
